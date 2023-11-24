@@ -1,12 +1,12 @@
 package dev.amal.booksapp.viewmodel
 
 import android.content.Context
-import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.amal.booksapp.model.BookItem
+import dev.amal.booksapp.model.Profile
 import dev.amal.booksapp.utils.DetailViewState
+import dev.amal.booksapp.utils.ProfileViewState
 import dev.amal.booksapp.utils.ViewState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,9 +18,12 @@ class MainViewModel : ViewModel() {
 
     private val _viewState = MutableStateFlow<ViewState>(ViewState.Loading)
     private val _detailViewState = MutableStateFlow<DetailViewState>(DetailViewState.Loading)
+    private val _profileViewState = MutableStateFlow<ProfileViewState>(ProfileViewState.Loading)
 
     val books = _viewState.asStateFlow()
     val bookDetails = _detailViewState.asStateFlow()
+    val profile = _profileViewState.asStateFlow()
+
 
     private val format = Json {
         ignoreUnknownKeys = true
@@ -54,6 +57,18 @@ class MainViewModel : ViewModel() {
 
         } catch (e: Exception) {
             _detailViewState.value = DetailViewState.Error(e)
+        }
+    }
+
+    fun getProfile(context: Context) = viewModelScope.launch {
+        try {
+            val myJson = context.assets.open("profile.json").bufferedReader().use {
+                it.readText()
+            }
+            val profile = format.decodeFromString<List<Profile>>(myJson)
+            _profileViewState.value = ProfileViewState.Success(profile)
+        } catch (e: Exception) {
+            _profileViewState.value = ProfileViewState.Error(e)
         }
     }
 }

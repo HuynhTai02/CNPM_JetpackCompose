@@ -18,6 +18,7 @@ import dev.amal.booksapp.model.OnBoardingPageItem
 import dev.amal.booksapp.view.BookDetailsScreen
 import dev.amal.booksapp.view.BookListScreen
 import dev.amal.booksapp.view.BookOnboardingScreen
+import dev.amal.booksapp.view.BookProfileScreen
 import dev.amal.booksapp.view.BookSplashScreen
 import dev.amal.booksapp.viewmodel.MainViewModel
 
@@ -64,6 +65,14 @@ fun NavGraph() {
             viewModel.getBookByID(context = context, isbnNO = isbnNo)
             BookDetailsScreen(viewModel, actions)
         }
+
+        composable(Screen.Profile.route) {
+            val viewModel: MainViewModel = viewModel(
+                factory = HiltViewModelFactory(LocalContext.current, it)
+            )
+            viewModel.getProfile(context = context)
+            BookProfileScreen(viewModel, actions)
+        }
     }
 }
 
@@ -82,6 +91,11 @@ class MainActions(navController: NavController) {
 
     val gotoBookOnboarding: () -> Unit = {
         navController.navigate(Screen.Onboarding.route)
+    }
+
+
+    val gotoProfile: () -> Unit = {
+        navController.navigate(Screen.Profile.route)
     }
 }
 

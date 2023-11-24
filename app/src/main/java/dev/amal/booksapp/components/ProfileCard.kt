@@ -1,8 +1,11 @@
 package dev.amal.booksapp.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -11,20 +14,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
-import com.google.accompanist.flowlayout.FlowRow
 import dev.amal.booksapp.ui.theme.typography
 
-@ExperimentalCoilApi
 @Composable
-fun BookDetailsCard(
-    title: String,
-    authors: List<String>,
-    thumbnailUrl: String,
-    categories: List<String>
+fun ProfileCard(
+    fullName: String,
+    nicName: String,
+    email: String,
+    thumbnailUrl: String
 ) {
     Box(
         Modifier
@@ -42,29 +43,31 @@ fun BookDetailsCard(
                 .clip(RoundedCornerShape(12.dp))
                 .background(MaterialTheme.colors.onSurface),
         )
-        BookImageContentView(title, authors, thumbnailUrl, categories)
+        ProfileContentView(fullName, nicName, email, thumbnailUrl)
     }
 }
 
-@ExperimentalCoilApi
+@SuppressLint("SimpleDateFormat")
 @Composable
-fun BookImageContentView(
-    title: String,
-    authors: List<String>,
-    thumbnailUrl: String,
-    categories: List<String>
+fun ProfileContentView(
+    fullName: String,
+    nicName: String,
+    email: String,
+    thumbnailUrl: String
 ) {
     Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         Image(
             painter = rememberImagePainter(
                 data = thumbnailUrl
             ),
-            contentDescription = title,
-            modifier = Modifier.size(240.dp, 140.dp),
+            contentDescription = fullName,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(128.dp)
+                .clip(CircleShape)
+                .border(2.dp, MaterialTheme.colors.primaryVariant.copy(0.7F), CircleShape)
         )
-
         Spacer(modifier = Modifier.height(16.dp))
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -73,24 +76,23 @@ fun BookImageContentView(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = title,
+                text = fullName,
                 style = typography.h6,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colors.primaryVariant
             )
-            Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = authors.toString().removePrefix("[").removeSuffix("]"),
+                text = nicName,
                 style = typography.caption,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colors.primaryVariant.copy(0.7F)
             )
-            Spacer(modifier = Modifier.height(12.dp))
-            FlowRow {
-                categories.forEach {
-                    ChipView(category = listOf(it))
-                }
-            }
+            Text(
+                text = email,
+                style = typography.caption,
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colors.primaryVariant.copy(0.7F)
+            )
         }
     }
 }

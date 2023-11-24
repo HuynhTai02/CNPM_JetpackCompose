@@ -1,6 +1,5 @@
 package dev.amal.booksapp.view
 
-import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

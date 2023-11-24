@@ -7,7 +7,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,9 +17,8 @@ import dev.amal.booksapp.navigation.MainActions
 import dev.amal.booksapp.ui.theme.typography
 
 @Composable
-fun TopBar(
-    title: String = "Book Description", action: MainActions,
-    onShareClick: () -> Unit
+fun TopBarProfile(
+    title: String, action: MainActions
 ) {
     Row(
         modifier = Modifier
@@ -37,13 +35,5 @@ fun TopBar(
         Spacer(modifier = Modifier.width(12.dp))
         Text(text = title, style = typography.h5, color = MaterialTheme.colors.primaryVariant)
 
-        Spacer(modifier = Modifier.width(120.dp))
-        Icon(
-            imageVector = Icons.Default.Share,
-            contentDescription = stringResource(R.string.text_share_button),
-            modifier = Modifier.clickable {
-                onShareClick()
-            }
-        )
     }
 }

@@ -19,7 +19,6 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.google.accompanist.flowlayout.FlowRow
 import dev.amal.booksapp.ui.theme.primary
-import dev.amal.booksapp.ui.theme.text
 import dev.amal.booksapp.ui.theme.typography
 
 @ExperimentalCoilApi

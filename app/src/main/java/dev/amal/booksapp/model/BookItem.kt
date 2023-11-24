@@ -4,10 +4,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class BookItem(
-    @Transient val authors: List<String> = emptyList(),
-    @Transient val categories: List<String> = emptyList(),
-    @Transient val isbn: String = "",
-    @Transient val longDescription: String = "",
+    val authors: List<String> = emptyList(),
+    val categories: List<String> = emptyList(),
+    val isbn: String = "",
+    val longDescription: String = "",
     val thumbnailUrl: String = "",
     val title: String = ""
 )
